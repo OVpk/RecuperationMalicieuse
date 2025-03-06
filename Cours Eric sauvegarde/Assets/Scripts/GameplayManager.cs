@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameplayManager : MonoBehaviour
+public class GameplayManager : MonoBehaviour,IDataPersistence
 {
     public static GameplayManager SINGLETON;
 
@@ -24,7 +24,7 @@ public class GameplayManager : MonoBehaviour
 
     private void Start()
     {
-        PieceCountainers = Instantiate(CoinsPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        PieceCountainers = Instantiate(PieceCountainers, new Vector3(0, 0, 0), Quaternion.identity);
         GameObject currentCanvas = Instantiate(CanvasPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         
         DontDestroyOnLoad(PieceCountainers.gameObject);
@@ -46,7 +46,7 @@ public class GameplayManager : MonoBehaviour
         {
             SINGLETON = this;
             DontDestroyOnLoad(this.gameObject);
-            DontDestroyOnLoad(piecesText.gameObject.transform.root);
+            DontDestroyOnLoad(this.transform.root.gameObject);
         }
        
     }
@@ -76,5 +76,15 @@ public class GameplayManager : MonoBehaviour
     {
         yield return new WaitForSeconds(timeToRestart);
         SceneManager.LoadScene(0);
+    }
+
+    public void LoadData(GameData data)
+    {
+        this.deathCount = data.DeathCount;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.DeathCount = this.deathCount;
     }
 }

@@ -8,7 +8,7 @@ public class CollisionDetection : MonoBehaviour
 {
     public GameplayManager GpManager;
 
-    private void Awake()
+    private void Start()
     {
         GameplayManager.SINGLETON.CD = this;
     }
